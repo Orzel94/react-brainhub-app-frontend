@@ -3,7 +3,11 @@ import { FormErrors } from '../FormErrors';
 import store from "../store/store";
 import { ADD_EMAIL, ADD_EVENTDATE, ADD_NAME, ADD_SURNAME } from '../store/actions/action-type';
 import { addEmail, addEventDate, addName, addSurname, addStateData } from '../store/actions/index'
-class ReservationForm extends Component {
+import { SendReservation } from './service';
+import { ToastContainer, ToastStore } from 'react-toasts';
+
+
+export class ReservationForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -50,8 +54,6 @@ class ReservationForm extends Component {
                 break;
         }
         this.validateField(name, value)
-        console.log(store.getState());
-
         // this.setState({ [name]: value },
         //     () => { this.validateField(name, value) });
     }
@@ -64,8 +66,14 @@ class ReservationForm extends Component {
         let eventDateValid = this.state.eventDateValid;
         switch (fieldName) {
             case 'email':
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+                emailValid = filter.test(value);
+                // emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.email = emailValid ? '' : ' invalid format: example@example.com';
+                if (emailValid) {
+                    debugger;
+                }
                 break;
             case 'name':
                 nameValid = value.length >= 3;
@@ -74,6 +82,7 @@ class ReservationForm extends Component {
             case 'surname':
                 surnameValid = value.length >= 3;
                 fieldValidationErrors.surname = surnameValid ? '' : ' minimum length: 3';
+                debugger;
                 break;
             case 'eventDate':
                 let dateTMP = new Date(Date.now())
@@ -98,6 +107,13 @@ class ReservationForm extends Component {
 
     errorClass(error) {
         return (error.length === 0 ? '' : 'has-error');
+    }
+
+    senReservation = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+        SendReservation();
     }
 
     render() {
@@ -135,7 +151,8 @@ class ReservationForm extends Component {
                         onChange={this.handleUserInput} />
                 </div>
 
-                <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>Sign up</button>
+                <button onClick={this.senReservation} className="btn btn-primary" disabled={!this.state.formValid}>Sign up</button>
+                <ToastContainer store={ToastStore} />
             </form>
         )
     }
