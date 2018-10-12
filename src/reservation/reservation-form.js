@@ -118,21 +118,21 @@ export class ReservationForm extends Component {
 
     render() {
         return (
-            <form>
+            <form autoComplete="off">
                 <h2>Sign up for event</h2>
                 {/* <div className="panel panel-default">
                     <FormErrors formErrors={this.state.formErrors} />
                 </div> */}
                 <div className={`form-group ${this.errorClass(this.state.formErrors.name)}`}>
                     <label htmlFor="name">First Name</label>
-                    <input type="text" className="form-control" name="name"
+                    <input type="name" className="form-control" name="name"
                         placeholder="Name"
                         onChange={this.handleUserInput} />
                     <div className='Form-error'><b>{this.state.nameValid ? '' : 'Minimum length: 3'}</b></div>
                 </div>
                 <div className={`form-group ${this.errorClass(this.state.formErrors.surname)}`}>
                     <label htmlFor="surname">Last Name</label>
-                    <input type="text" className="form-control" name="surname"
+                    <input type="surname" className="form-control" name="surname"
                         placeholder="Surname"
                         onChange={this.handleUserInput} />
                     <div className='Form-error'><b>{this.state.surnameValid ? '' : 'Minimum length: 3'}</b></div>
@@ -149,6 +149,7 @@ export class ReservationForm extends Component {
                     <input type="date" required className="form-control" name="eventDate"
                         placeholder="EventDate"
                         onChange={this.handleUserInput} />
+                        <div className='Form-error'><b>{this.state.eventDateValid ? '' : 'Invalid date'}</b></div>
                 </div>
 
                 <button onClick={this.senReservation} className="btn btn-primary" disabled={!this.state.formValid}>Sign up</button>
