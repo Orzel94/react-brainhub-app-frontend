@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { FormErrors } from '../FormErrors';
 import store from "../store/store";
-import { ADD_EMAIL, ADD_EVENTDATE, ADD_NAME, ADD_SURNAME } from '../store/actions/action-type';
-import { addEmail, addEventDate, addName, addSurname, addStateData } from '../store/actions/index'
+import { addEmail, addEventDate, addName, addSurname } from '../store/actions/index'
 import { SendReservation } from './service';
 import { ToastContainer, ToastStore } from 'react-toasts';
 
@@ -11,16 +9,6 @@ export class ReservationForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            surname: '',
-            email: '',
-            eventDate: '',
-            formErrors: {
-                name: '',
-                surname: '',
-                email: '',
-                eventDate: new Date()
-            },
             nameValid: false,
             surnameValid: false,
             emailValid: false,
@@ -54,12 +42,9 @@ export class ReservationForm extends Component {
                 break;
         }
         this.validateField(name, value)
-        // this.setState({ [name]: value },
-        //     () => { this.validateField(name, value) });
     }
 
     validateField(fieldName, value) {
-        let fieldValidationErrors = this.state.formErrors;
         let emailValid = this.state.emailValid;
         let nameValid = this.state.nameValid;
         let surnameValid = this.state.surnameValid;
@@ -67,33 +52,23 @@ export class ReservationForm extends Component {
         switch (fieldName) {
             case 'email':
                 let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
                 emailValid = filter.test(value);
-                // emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-                fieldValidationErrors.email = emailValid ? '' : ' invalid format: example@example.com';
-                if (emailValid) {
-                    debugger;
-                }
                 break;
             case 'name':
                 nameValid = value.length >= 3;
-                fieldValidationErrors.name = nameValid ? '' : ' minimum length: 3';
                 break;
             case 'surname':
                 surnameValid = value.length >= 3;
-                fieldValidationErrors.surname = surnameValid ? '' : ' minimum length: 3';
                 debugger;
                 break;
             case 'eventDate':
                 let dateTMP = new Date(Date.now())
                 eventDateValid = value >= dateTMP;
-                fieldValidationErrors.eventDate = eventDateValid ? '' : ' must be greater than present';
                 break;
             default:
                 break;
         }
         this.setState({
-            formErrors: fieldValidationErrors,
             emailValid: emailValid,
             nameValid: nameValid,
             surnameValid: surnameValid,
@@ -120,31 +95,28 @@ export class ReservationForm extends Component {
         return (
             <form autoComplete="off">
                 <h2>Sign up for event</h2>
-                {/* <div className="panel panel-default">
-                    <FormErrors formErrors={this.state.formErrors} />
-                </div> */}
-                <div className={`form-group ${this.errorClass(this.state.formErrors.name)}`}>
+                <div className={`form-group ${this.errorClass(this.state.nameValid ? '' : 'err')}`}>
                     <label htmlFor="name">First Name</label>
                     <input type="name" className="form-control" name="name"
                         placeholder="Name"
                         onChange={this.handleUserInput} />
                     <div className='Form-error'><b>{this.state.nameValid ? '' : 'Minimum length: 3'}</b></div>
                 </div>
-                <div className={`form-group ${this.errorClass(this.state.formErrors.surname)}`}>
+                <div className={`form-group ${this.errorClass(this.state.surnameValid ? '' : 'err')}`}>
                     <label htmlFor="surname">Last Name</label>
                     <input type="surname" className="form-control" name="surname"
                         placeholder="Surname"
                         onChange={this.handleUserInput} />
                     <div className='Form-error'><b>{this.state.surnameValid ? '' : 'Minimum length: 3'}</b></div>
                 </div>
-                <div className={`form-group ${this.errorClass(this.state.formErrors.email)}`}>
+                <div className={`form-group ${this.errorClass(this.state.emailValid ? '' : 'err')}`}>
                     <label htmlFor="email">Email address</label>
                     <input type="email" required className="form-control" name="email"
                         placeholder="Email"
                         onChange={this.handleUserInput} />
                     <div className='Form-error'><b>{this.state.emailValid ? '' : 'Invalid email format'}</b></div>
                 </div>
-                <div className={`form-group ${this.errorClass(this.state.formErrors.eventDate)}`}>
+                <div className={`form-group ${this.errorClass(this.state.eventDateValid ? '' : 'err')}`}>
                     <label htmlFor="eventDate">Event Date</label>
                     <input type="date" required className="form-control" name="eventDate"
                         placeholder="EventDate"

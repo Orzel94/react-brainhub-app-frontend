@@ -9,7 +9,7 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_EMAIL:
-            return { ...state, email:action.payload };
+            return { ...state, email: action.payload };
         case ADD_EVENTDATE:
             return { ...state, eventDate: action.payload };
         case ADD_NAME:

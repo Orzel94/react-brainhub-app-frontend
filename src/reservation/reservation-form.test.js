@@ -81,7 +81,7 @@ describe('directly invoking the "validateField" method from component instance',
   });
 
   it('validate correct eventDate', () => {
-    let date = new Date(2120,12,30);
+    let date = new Date(2120, 12, 30);
     const wrapper = shallow(<ReservationForm />);
     const instance = wrapper.instance();
     expect(wrapper.state('eventDateValid')).toBe(false);
@@ -91,7 +91,7 @@ describe('directly invoking the "validateField" method from component instance',
   });
 
   it('validate incorrect eventDate', () => {
-    let date = new Date(2001,12,30);
+    let date = new Date(2001, 12, 30);
     const wrapper = shallow(<ReservationForm />);
     const instance = wrapper.instance();
     expect(wrapper.state('eventDateValid')).toBe(false);
@@ -101,7 +101,7 @@ describe('directly invoking the "validateField" method from component instance',
   });
 
   it(' validate incorrect eventDate', () => {
-    let date = new Date(2120,12,30);
+    let date = new Date(2120, 12, 30);
     const wrapper = shallow(<ReservationForm />);
     const instance = wrapper.instance();
     expect(wrapper.state('formValid')).toBe(false);

@@ -1,5 +1,5 @@
 import store from "../store/store";
-import {ToastContainer, ToastStore} from 'react-toasts';
+import { ToastStore } from 'react-toasts';
 
 const backendURL = "http://localhost:3001";
 
