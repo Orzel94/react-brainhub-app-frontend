@@ -59,7 +59,6 @@ export class ReservationForm extends Component {
                 break;
             case 'surname':
                 surnameValid = value.length >= 3;
-                debugger;
                 break;
             case 'eventDate':
                 let dateTMP = new Date(Date.now())
